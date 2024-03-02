@@ -17,7 +17,7 @@ const SharedCars = () => {
 			{sharedCars.map((car) => {
 				return (
 					<div key={car._id}>
-						<h1>{car.make}</h1>
+						<h1 className="">{car.make}</h1>
 						<img src={car.image} alt="car" width={50} height={50} />
 					</div>
 				);

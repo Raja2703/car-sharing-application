@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const carRouter = require('./src/route/carRoutes.js');
+const userRouter = require('./src/route/userRoutes.js');
 
 const app = express();
 
@@ -15,5 +16,6 @@ app.use(cors({ origin: true, credentials: true }));
 
 // routes
 app.use('/api/v1/cars', carRouter);
+app.use('/api/v1/user', userRouter);
 
 module.exports = app;

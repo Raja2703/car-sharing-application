@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import CarUpload from './page/CarUpload';
 import SharedCars from './page/SharedCars';
+import './index.css';
 
 function App() {
 	return (
