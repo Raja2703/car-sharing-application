@@ -17,13 +17,34 @@ const carSchema = new mongoose.Schema({
 		type: String,
 		required: [true, "Car's fuel type is required"],
 	},
-	carFee: {
+	carFee1: {
 		type: Number,
-		required: [true, 'Car fee is required for it to be shared'],
+		required: [true, 'Car fee 1 is required for it to be shared'],
+	},
+	carFee2: {
+		type: Number,
+		required: [true, 'Car fee 2 is required for it to be shared'],
+	},
+	carFee3: {
+		type: Number,
+		required: [true, 'Car fee 3 is required for it to be shared'],
 	},
 	image: {
 		type: String,
 		// required: [true, 'Car image is required'],
+	},
+	ownerName: {
+		type: String,
+		required: [true, 'A car must have a user'],
+	},
+	ownerId: {
+		type: String,
+	},
+	buyerName: {
+		type: String,
+	},
+	buyerId: {
+		type: String,
 	},
 });
 
