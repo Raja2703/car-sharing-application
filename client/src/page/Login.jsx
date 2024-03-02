@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './register.css';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Login = (props) => {
 	const navigate = useNavigate();
 	const [userName, setUserName] = useState('');
 	const [password, setPassword] = useState('');
@@ -32,6 +32,7 @@ const Login = () => {
 					localStorage.setItem('jwt', data.token);
 					localStorage.setItem('userName', data.user.userName);
 					localStorage.setItem('userId', data.user.id);
+					props.refresher();
 					navigate('/');
 				}
 			})
@@ -39,7 +40,7 @@ const Login = () => {
 	};
 
 	return (
-		<div className="bg-neutral-800/90 w-screen h-screen flex justify-center items-center">
+		<div className="bg-neutral-800 w-full h-screen flex justify-center items-center">
 			<form method="POST" onSubmit={handleSubmit} className="blurer flex flex-col px-14 pb-10 pt-5 justify-center items-center gap-y-5">
 				<h1 className="text-2xl text-white">Login</h1>
 				<input placeholder="Username" className="w-56 h-10 px-2 outline-none rounded-lg" onChange={(e) => setUserName(e.target.value)} />

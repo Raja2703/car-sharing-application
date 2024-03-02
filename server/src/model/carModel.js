@@ -42,9 +42,13 @@ const carSchema = new mongoose.Schema({
 	},
 	buyerName: {
 		type: String,
+		default: '',
 	},
 	buyerId: {
 		type: mongoose.Types.ObjectId,
+	},
+	rentedForDuration: {
+		type: String,
 	},
 });
 

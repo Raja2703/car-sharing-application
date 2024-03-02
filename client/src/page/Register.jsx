@@ -60,8 +60,8 @@ const Register = () => {
 	};
 
 	return (
-		<div className="bg-neutral-800/90 w-screen h-screen flex justify-center items-center">
-			<form method="POST" onSubmit={handleSubmit} className="blurer flex flex-col px-14 pb-10 pt-5 justify-center items-center">
+		<div className="bg-neutral-800 w-full h-screen flex justify-center items-center">
+			<form method="POST" onSubmit={handleSubmit} className="blurer bg-neutral-800 flex flex-col px-14 pb-10 pt-5 justify-center items-center">
 				<h1 className="text-2xl text-white my-5">Register</h1>
 				<input placeholder="Username" className="mt-5 w-56 h-10 px-2 outline-none rounded-lg" onChange={(e) => setUserName(e.target.value)} />
 				{userNameError && <p className="mt-1 text-red-600">{userNameError}</p>}

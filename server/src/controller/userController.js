@@ -1,3 +1,4 @@
+const { promisify } = require('util');
 const User = require('../model/userModel');
 const jwt = require('jsonwebtoken');
 
@@ -56,4 +57,45 @@ exports.register = async (req, res, next) => {
 			error: err,
 		});
 	}
+};
+
+exports.protect = async (req, res, next) => {
+	let token, decoded;
+	if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+		token = req.headers.authorization.split(' ')[1];
+	}
+
+	if (!token) {
+		return res.status(401).json({
+			message: 'You are not authorized',
+		});
+	}
+
+	try {
+		decoded = await jwt.verify(token, process.env.JWT_SECRET_KEY);
+	} catch (err) {
+		if (err.name === 'JsonWebTokenError') {
+			return res.status(401).json({
+				status: 'failed',
+				message: 'Please login again',
+			});
+		}
+
+		if (err.name === 'TokenExpiredError') {
+			return res.status(401).json({
+				status: 'failed',
+				message: 'Your token has expired! Please login again',
+			});
+		}
+	}
+
+	const currentUser = await User.findById(decoded.id);
+	if (!currentUser) {
+		return res.status(401).json({
+			message: 'User with that id no longer exists',
+		});
+	}
+
+	req.user = currentUser;
+	next();
 };
