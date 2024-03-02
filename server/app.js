@@ -2,9 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const carRouter = require('./src/route/carRoutes.js');
 const userRouter = require('./src/route/userRoutes.js');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
+app.use(cookieParser());
 // Middleware to parse JSON bodies
 app.use(express.json({ limit: '50mb' }));
 

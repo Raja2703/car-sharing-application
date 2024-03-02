@@ -38,13 +38,13 @@ const carSchema = new mongoose.Schema({
 		required: [true, 'A car must have a user'],
 	},
 	ownerId: {
-		type: String,
+		type: mongoose.Types.ObjectId,
 	},
 	buyerName: {
 		type: String,
 	},
 	buyerId: {
-		type: String,
+		type: mongoose.Types.ObjectId,
 	},
 });
 

@@ -8,21 +8,15 @@ const signToken = (id) => {
 };
 
 const createSendToken = (user, statusCode, res) => {
+	// Create a new instance of LocalStorage
 	const token = signToken(user._id);
-
-	const cookieOptions = {
-		// expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
-		secure: true,
-		httpOnly: true,
-	};
-
-	res.cookie('jwt', token, cookieOptions);
 
 	res.status(statusCode).json({
 		status: 'success',
 		token,
-		data: {
-			user: user,
+		user: {
+			id: user._id,
+			userName: user.userName,
 		},
 	});
 };
@@ -44,7 +38,10 @@ exports.login = async (req, res, next) => {
 		// 3) if everything is ok send token to client
 		createSendToken(user, 200, res);
 	} catch (err) {
-		console.log(err);
+		res.status(400).json({
+			message: 'Error',
+			err: err.message,
+		});
 	}
 };
 
@@ -54,6 +51,9 @@ exports.register = async (req, res, next) => {
 
 		createSendToken(newUser, 200, res);
 	} catch (err) {
-		console.log(err);
+		res.status(400).json({
+			message: 'Error',
+			error: err,
+		});
 	}
 };
