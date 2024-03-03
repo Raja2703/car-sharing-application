@@ -8,6 +8,7 @@ import BookCar from './page/BookCar';
 import MyRentals from './page/MyRentals';
 import RentalDetails from './page/RentalDetails';
 import { useEffect, useState } from 'react';
+import MyShares from './page/MyShares';
 
 function App() {
 	const [jwt, setJwt] = useState();
@@ -27,6 +28,7 @@ function App() {
 					<>
 						<Route path="/" element={<SharedCars refresher={refresher} />} exact />
 						<Route path="/myRentals" element={<MyRentals refresher={refresher} />} exact />
+						<Route path="/myShares" element={<MyShares refresher={refresher} />} exact />
 						<Route path="/myRentals/:id" element={<RentalDetails refresher={refresher} />} exact />
 						<Route path="/book/:id" element={<BookCar refresher={refresher} />} exact />
 						<Route path="/upload" element={<CarUpload refresher={refresher} />} exact />

@@ -1,13 +1,21 @@
-import React from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = (props) => {
 	const navigate = useNavigate();
+	const location = useLocation();
+	const [activePage, setActivePage] = useState('');
+
+	useEffect(() => {
+		setActivePage(location.pathname);
+	}, [location]);
+
 	const routes = [
 		{ id: 1, name: 'Shared Cars', src: '/' },
 		{ id: 2, name: 'My Rentals', src: '/myRentals' },
-		{ id: 3, name: 'Rent My Car', src: '/upload' },
+		{ id: 3, name: 'My Shares', src: '/myShares' },
+		{ id: 4, name: 'Rent My Car', src: '/upload' },
 	];
 
 	const logout = () => {
@@ -19,10 +27,13 @@ const Navbar = (props) => {
 	};
 	return (
 		<div className="flex justify-between items-center px-5 bg-black/90">
-			<nav className="flex gap-x-10 w-full h-16 text-white items-center text-xl font-semibold">
+			<div>
+				<h1 className="text-white text-xl font-semibold">Klenty Car Shares</h1>
+			</div>
+			<nav className="flex gap-x-10 w-3/6 h-16 text-white items-center text-xl font-semibold">
 				{routes.map((route) => {
 					return (
-						<Link className="hover:border-b ease-linear duration-100" to={route.src} key={route.id}>
+						<Link className={`hover:border-b ease-linear duration-100 ${activePage === route.src ? 'border-b' : ''}`} to={route.src} key={route.id}>
 							{route.name}
 						</Link>
 					);

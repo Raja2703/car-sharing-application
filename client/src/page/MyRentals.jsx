@@ -4,19 +4,24 @@ import Navbar from '../component/Navbar';
 
 const MyRentals = (props) => {
 	const [rentedCars, setRentedCars] = useState([]);
+	const [loading, setLoading] = useState(true);
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		const userId = localStorage.getItem('userId');
 		const jwt = localStorage.getItem('jwt');
-		fetch(`http://localhost:3000/api/v1/cars/rent/${userId}`, {
+		fetch(`${process.env.REACT_APP_BASE_URL}/cars/rent/${userId}`, {
 			headers: {
 				authorization: `Bearer ${jwt}`,
 			},
 		})
 			.then((response) => response.json())
-			.then((data) => setRentedCars(data.cars))
+			.then((data) => {
+				setRentedCars(data.cars);
+				setLoading(false);
+			})
 			.catch((err) => {
+				setLoading(false);
 				console.log(err);
 			});
 	});
@@ -31,25 +36,40 @@ const MyRentals = (props) => {
 	const withdrawRental = (e) => {
 		const jwt = localStorage.getItem('jwt');
 		const data = { id: e.target.id };
-		fetch(`http://localhost:3000/api/v1/cars/rent/withdraw`, {
+		// console.log(data);
+		fetch(`${process.env.REACT_APP_BASE_URL}/cars/rent/withdraw/${data.id}`, {
 			method: 'PATCH',
 			headers: {
 				authorization: `Bearer ${jwt}`,
 			},
-			body: JSON.stringify(data),
 		})
 			.then((response) => {
-				console.log('jsoning');
 				return response.json();
 			})
-			.then((data) => console.log(data))
+			.then((data) => {
+				console.log('withdraw: ', data);
+			})
 			.catch((err) => {
 				console.log(err);
 			});
 	};
 
+	if (loading) {
+		return (
+			<div>
+				<Navbar refresher={props.refresher} />
+				<div className="min-h-screen pt-10  bg-neutral-800 py-20 text-white text-2xl font-semibold text-center">Loading...</div>;
+			</div>
+		);
+	}
+
 	if (rentedCars.length === 0) {
-		return <div className="min-h-screen pt-10  bg-neutral-800 py-20 text-white text-2xl font-semibold text-center">No Cars Rented by you</div>;
+		return (
+			<div>
+				<Navbar refresher={props.refresher} />
+				<div className="min-h-screen pt-10  bg-neutral-800 py-20 text-white text-2xl font-semibold text-center">No Cars Rented by you</div>;
+			</div>
+		);
 	}
 
 	return (

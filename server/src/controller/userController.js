@@ -95,7 +95,6 @@ exports.protect = async (req, res, next) => {
 			message: 'User with that id no longer exists',
 		});
 	}
-
 	req.user = currentUser;
 	next();
 };
