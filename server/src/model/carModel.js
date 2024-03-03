@@ -31,7 +31,7 @@ const carSchema = new mongoose.Schema({
 	},
 	image: {
 		type: String,
-		// required: [true, 'Car image is required'],
+		required: [true, 'Car image is required'],
 	},
 	ownerName: {
 		type: String,

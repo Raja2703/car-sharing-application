@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './register.css';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = (props) => {
 	const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Login = (props) => {
 
 		console.log(data);
 
-		fetch(`http://localhost:3000/api/v1/user/login`, {
+		fetch(`${process.env.REACT_APP_BASE_URL}/user/login`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -29,11 +29,11 @@ const Login = (props) => {
 				if (data.err) {
 					setError(data.err);
 				} else {
+					navigate('/');
 					localStorage.setItem('jwt', data.token);
 					localStorage.setItem('userName', data.user.userName);
 					localStorage.setItem('userId', data.user.id);
 					props.refresher();
-					navigate('/');
 				}
 			})
 			.catch((err) => setError(err));
@@ -49,6 +49,9 @@ const Login = (props) => {
 				<button type="submit" className="w-20 text-white bg-green-700 rounded-md h-10">
 					Submit
 				</button>
+				<h1 className="text-white">
+					Dont have and account? <Link to="/register">Register</Link>
+				</h1>
 			</form>
 		</div>
 	);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './register.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Register = () => {
 	const navigate = useNavigate();
@@ -27,7 +27,7 @@ const Register = () => {
 
 		console.log(data);
 
-		fetch(`http://localhost:3000/api/v1/user/register`, {
+		fetch(`${process.env.REACT_APP_BASE_URL}/user/register`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -74,6 +74,9 @@ const Register = () => {
 				<button type="submit" className="mt-5 w-20 text-white bg-green-700 rounded-md h-10">
 					Submit
 				</button>
+				<h1 className="text-white mt-3">
+					Already have an account? <Link to="/login">Login</Link>
+				</h1>
 			</form>
 		</div>
 	);
