@@ -19,13 +19,18 @@ const RentalDetails = (props) => {
 	}, []);
 
 	useEffect(() => {
-		if (location.state && location.state.length > 0) {
-			setCar(location.state[0]);
+		if (location.state && location.state) {
+			setCar(location.state);
 		}
 	}, [location]);
 
 	if (!car) {
-		return <div>Loading...</div>;
+		return (
+			<div>
+				<Navbar refresher={props.refresher} />
+				<div className="min-h-screen pt-10  bg-neutral-800 py-20 text-white text-2xl font-semibold text-center">Loading...</div>;
+			</div>
+		);
 	}
 
 	return (
