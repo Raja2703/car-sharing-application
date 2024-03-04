@@ -30,7 +30,7 @@ const MyRentals = (props) => {
 		const car = rentedCars.filter((car) => {
 			return car._id === e.target.id;
 		});
-		navigate(`/myRentals/${e.target.id}`, { state: car });
+		navigate(`/myRentals/${e.target.id}`, { state: car[0] });
 	};
 
 	const withdrawRental = (e) => {

@@ -35,7 +35,7 @@ const MyShares = (props) => {
 		const carId = e.target.id;
 		const car = rentedCars.find((car) => car._id === carId);
 		if (car) {
-			navigate(`/myRentals/${carId}`, { state: car });
+			navigate(`/myShares/${carId}`, { state: car });
 		} else {
 			console.error('Car not found');
 		}
