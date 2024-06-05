@@ -72,7 +72,7 @@ exports.protect = async (req, res, next) => {
 	}
 
 	try {
-		decoded = await jwt.verify(token, process.env.JWT_SECRET_KEY);
+		decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET_KEY);
 	} catch (err) {
 		if (err.name === 'JsonWebTokenError') {
 			return res.status(401).json({
