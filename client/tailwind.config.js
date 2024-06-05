@@ -6,6 +6,7 @@ module.exports = {
 			fontFamily: {
 				kode: 'Kode Mono',
 				ubuntu: 'Ubuntu',
+				space: 'Space Grotesk',
 			},
 		},
 	},

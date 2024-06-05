@@ -1,4 +1,9 @@
 const Car = require('../model/carModel');
+const { GridFSBucket } = require('mongodb');
+const { default: mongoose } = require('mongoose');
+const dotenv = require('dotenv');
+// config file location
+dotenv.config({ path: './../../config.env' });
 
 exports.getAllCars = async (req, res, next) => {
 	try {
@@ -86,14 +91,70 @@ exports.getCarDetails = async (req, res, next) => {
 
 exports.postCar = async (req, res, next) => {
 	try {
-		const car = await Car.create(req.body);
-		res.status(202).json({
-			car,
+		// const car = await Car.create(req.body);
+		// res.status(202).json({
+		// 	car,
+		// });
+
+		// let newImage = new Image({
+		// 	caption: req.body.caption,
+		// 	fileName: req.file.name,
+		// 	fileId: req.file.id,
+		// });
+
+		// newImage
+		// 	.save()
+		// 	.then((image) => {
+		// 		res.status(200).json({
+		// 			status: 'success',
+		// 			image,
+		// 		});
+		// 	})
+		// 	.catch((err) => {
+		// 		console.log(err);
+		// 	});
+		console.log('file:', req.file);
+
+		if (!req.file) {
+			throw new Error('upload failed');
+		}
+
+		res.status(200).json({
+			file: req.file,
+			message: 'file uploaded',
 		});
 	} catch (err) {
 		res.status(400).json({
-			err,
+			error: err.message,
 		});
+	}
+};
+
+exports.getCarImage = async (req, res, next) => {
+	try {
+		let imageName = req.params.imageName;
+
+		const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
+		// Ensure database connection and gridBucket are ready
+		await mongoose.connect(DB);
+		let db = mongoose.connection.db;
+
+		let gridBucket = new GridFSBucket(db, {
+			bucketName: 'uploads',
+		});
+
+		// Find the image in GridFS
+		let result = await gridBucket.find({ filename: imageName }).toArray();
+
+		if (!result || result.length === 0) {
+			throw new Error('File does not exist');
+		}
+
+		// Stream the file to response
+		await gridBucket.openDownloadStreamByName(imageName).pipe(res);
+	} catch (err) {
+		console.error(err);
+		res.status(404).json({ message: err.message });
 	}
 };
 
